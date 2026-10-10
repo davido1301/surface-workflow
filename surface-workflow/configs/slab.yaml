@@ -1,0 +1,14 @@
+structure:
+  file: "../data/Cu_mp-30_conventional_standard.cif"
+  miller_index: [0, 0, 1]
+
+slab:
+  layers: [1, 2, 3, 4]
+  vacuum: 30.0
+
+supercell:
+  min_lateral_size: 10.0
+
+output:
+  directory: "runs/slabs"
+  format: "extxyz"

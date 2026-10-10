@@ -17,3 +17,6 @@ Bulk structure -> Surface/Slab Generation -> Layer Variation -> CP2K Input Gener
 
 ## Project Status
 Early development! 
+For now a bit of incoherent scripts
+!TODO: Later on add appropriate CLI 
+

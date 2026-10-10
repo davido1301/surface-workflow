@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project] 
+name = "surface-workflow"
+version = "0.1.0"
+description = "Mod surface generation and DFT workflow" 
+requires-python = ">=3.11"
+
+dependencies = [
+    "pymatgen", 
+    "ase", 
+    "pyyaml"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"] 
