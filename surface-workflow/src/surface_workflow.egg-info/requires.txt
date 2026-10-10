@@ -1,3 +1,0 @@
-pymatgen
-ase
-pyyaml

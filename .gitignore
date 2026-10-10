@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+
+# Python build artifacts
+build/
+dist/
+*.whl 
+
+# CP2K calculation files
+*.wfn
+*.restart
+*.cube
+
+# Environment variables
+.env
+
+# OS files
+.DS_Store

@@ -1,8 +1,0 @@
-Metadata-Version: 2.4
-Name: surface-workflow
-Version: 0.1.0
-Summary: Mod surface generation and DFT workflow
-Requires-Python: >=3.11
-Requires-Dist: pymatgen
-Requires-Dist: ase
-Requires-Dist: pyyaml
