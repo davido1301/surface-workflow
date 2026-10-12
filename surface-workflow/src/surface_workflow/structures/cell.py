@@ -7,7 +7,7 @@ def generate_cell(config_path):
     config = load_config(config_path)
 
     xyz_path = Path(config["output"]["directory"]) / "slab_1.extxyz" 
-    output_path = Path(config["output"]["directory"]) / "cell.inc" 
+    output_path = Path(config["cp2k"]["directory"]) / "cell.inc" 
 
     atoms = read(xyz_path, format="extxyz")
 

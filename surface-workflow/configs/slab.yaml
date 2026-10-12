@@ -3,7 +3,7 @@ structure:
   miller_index: [0, 0, 1]
 
 slab:
-  layers: [1, 2, 3, 4]
+  layers: [1, 2, 3, 4, 5]
   vacuum: 30.0
 
 supercell:
@@ -12,3 +12,8 @@ supercell:
 output:
   directory: "runs/slabs"
   format: "extxyz"
+
+cp2k: 
+  directory: "configs/cp2k/" 
+
+  
