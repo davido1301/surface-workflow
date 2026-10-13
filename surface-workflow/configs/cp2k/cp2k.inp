@@ -41,7 +41,7 @@
 		&END CELL
 		&TOPOLOGY
 			COORD_FILE_FORMAT XYZ
-			COORD_FILE_NAME runs/slabs/slab_5.extxyz
+			COORD_FILE_NAME runs/slabs/slab_1.extxyz
 		&END TOPOLOGY
 		&KIND Cu
 			BASIS_SET DZVP-MOLOPT-SR-GTH-q11

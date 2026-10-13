@@ -15,5 +15,6 @@ output:
 
 cp2k: 
   directory: "configs/cp2k/" 
+  workdir: "runs/cp2k/" 
 
   

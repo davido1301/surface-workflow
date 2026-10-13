@@ -12,7 +12,8 @@ def change_startstructure(cp2k_inp, structure):
     topology = cp2k_inp.by_path("FORCE_EVAL/SUBSYS/TOPOLOGY") 
     topology["COORD_FILE_NAME"] = structure 
 
-def generate_new_cp2kinp(config,structure, filename): 
+
+def generate_new_cp2kinp(config, structure, filename): 
     config = load_config(config)
     input_path = Path(config["cp2k"]["directory"]) / "cp2k.inp"
     cp2k_inp = read_input(input_path) 
