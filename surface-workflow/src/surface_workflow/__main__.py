@@ -4,6 +4,8 @@ from surface_workflow.config import load_config
 from surface_workflow.structures.slab  import gen_slabs 
 from surface_workflow.structures.cell import generate_cell
 from surface_workflow.io.cp2k.input import generate_new_cp2kinp 
+from surface_workflow.io.cp2k.output import collect_energies
+from surface_workflow.analysis.plotting import plot_energy_steps_scf, plot_convergence 
 
 import subprocess 
 import os 
@@ -17,6 +19,8 @@ def main():
     cp2k_conf = Path(config["cp2k"]["directory"]) / "cp2k.inp" 
     output_dir = Path(config["output"]["directory"]) 
 
+    energies = [] 
+
     # Generate candidate slabs
     gen_slabs(config_path)
     
@@ -24,8 +28,6 @@ def main():
     generate_cell(config_path) 
 
     # LOOP create INPUT CP2K -> SUBPROCESS OUTPUT -> COLLECT ENERGIES PLOT CONV 
-    # BATCHED FOR NOW 
-
     # create cp2k.inp before 
     for n_layers in config["slab"]["layers"]: 
         cp2k_conf = Path(config["cp2k"]["directory"]) / f"cp2k_{n_layers}.inp" 
@@ -64,7 +66,20 @@ def main():
         check=True,
         )
 
+        
         # plots inside the run dir  // Store energies for conv? 
 
+        output = collect_energies(out_file)
+        energies.append(output.final_energy / float(output.data["atoms"][0][0])) 
+
+        plot_energy_steps_scf(output.data["electronic_steps"][0], run_dir / f"scf_{n_layers}_steps.png") 
+
+    ### Plot convergence 
+
+    plot_convergence(energies, output_dir / "convergence_plots.png") 
+
+
+    
+        
 if __name__ == "__main__": 
      main()
