@@ -37,6 +37,7 @@
 	&END DFT
 	&SUBSYS
 		&CELL
+            @INCLUDE cell.inc
 			PERIODIC XYZ
 		&END CELL
 		&TOPOLOGY
