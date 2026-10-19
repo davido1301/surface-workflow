@@ -1,16 +1,17 @@
 structure:
-  file: "../data/Cu_mp-30_conventional_standard.cif"
+  file: "../data/SiO2_conventional_standard.cif"
   miller_index: [0, 0, 1]
 
 slab:
-  layers: [1, 2, 3, 4, 5]
+  max_layers: 8
   vacuum: 10.0
+  conv_criteria: 0.1 
 
 supercell:
   min_lateral_size: 5.0
 
 output:
-  directory: "runs/slabs"
+  directory: "runs/results"
   format: "extxyz"
 
 cp2k: 

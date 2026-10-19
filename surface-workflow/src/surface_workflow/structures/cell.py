@@ -3,11 +3,10 @@ from pathlib import Path
 from surface_workflow.config import load_config 
 
 
-def generate_cell(config_path): 
-    config = load_config(config_path)
+def generate_cell(filename, run_dir): 
 
-    xyz_path = Path(config["output"]["directory"]) / "slab_1.extxyz" 
-    output_path = Path(config["cp2k"]["directory"]) / "cell.inc" 
+    xyz_path = Path(run_dir / filename)
+    output_path = Path(run_dir) / "cell.inc" 
 
     atoms = read(xyz_path, format="extxyz")
 

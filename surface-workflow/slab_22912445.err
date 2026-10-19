@@ -1,0 +1,27 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) ModuleLabel/label   2) lumi-tools/26.06   3) init-lumi/0.3
+
+The following sticky modules could not be reloaded:
+
+  1) lumi-tools
+MPICH ERROR [Rank 0] [job id 22912445.0] [Fri Oct 16 17:08:03 2026] [nid001279] - Abort(1) (rank 0 in comm 0): application called MPI_Abort(MPI_COMM_WORLD, 1) - process 0
+
+aborting job:
+application called MPI_Abort(MPI_COMM_WORLD, 1) - process 0
+srun: error: nid001279: task 0: Exited with exit code 255
+srun: Terminating StepId=22912445.0
+[2026-10-16T17:08:03.676] error: *** STEP 22912445.0 ON nid001279 CANCELLED AT 2026-10-16T17:08:03 DUE TO TASK FAILURE ***
+srun: error: nid001279: tasks 1-31: Terminated
+srun: Force Terminated StepId=22912445.0
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/project/project_462001547/DAVID/software/surface-workflow/surface-workflow/src/surface_workflow/__main__.py", line 71, in <module>
+    main()
+  File "/project/project_462001547/DAVID/software/surface-workflow/surface-workflow/src/surface_workflow/__main__.py", line 39, in main
+    subprocess.run(
+  File "/LUMI_TYKKY_V2Zlszt/miniforge/envs/env1/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['srun', 'cp2k.psmp', '-i', '/pfs/lustrep4/projappl/project_462001547/DAVID/software/surface-workflow/surface-workflow/runs/cp2k/slab_1/cp2k_1.inp', '-o', 'cp2k.out']' returned non-zero exit status 143.
