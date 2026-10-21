@@ -3,10 +3,10 @@ from pathlib import Path
 from surface_workflow.config import load_config 
 
 
-def generate_cell(filename, run_dir): 
+def generate_cell(filename, run_dir, conf_dir): 
 
     xyz_path = Path(run_dir / filename)
-    output_path = Path(run_dir) / "cell.inc" 
+    output_path = Path(conf_dir) / "cell.inc" 
 
     atoms = read(xyz_path, format="extxyz")
 

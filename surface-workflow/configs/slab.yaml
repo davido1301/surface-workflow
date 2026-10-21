@@ -8,7 +8,7 @@ slab:
   conv_criteria: 0.1 
 
 supercell:
-  min_lateral_size: 5.0
+  min_lateral_size: 15.0
 
 output:
   directory: "runs/results"

@@ -30,10 +30,9 @@ def main():
         out_file = Path(run_dir / "cp2k.out").resolve()
      
         gen_slab(config_path, n_layers, run_dir) 
-        generate_cell(f"slab_{n_layers}.extxyz", run_dir) 
-
+        generate_cell(f"slab_{n_layers}.extxyz", run_dir = run_dir, conf_dir= config["cp2k"]["directory"] ) 
         generate_new_cp2kinp(config_path, structure=f"slab_{n_layers}.extxyz", filename =cp2k_conf) 
-
+        
 
         # SUBPROCESS INTO CP2K and run calculation 
         subprocess.run(
