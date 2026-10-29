@@ -34,6 +34,21 @@
 			&XC_FUNCTIONAL PBE
 			&END XC_FUNCTIONAL
 		&END XC
+         &PRINT
+    &V_HARTREE_CUBE ON
+      FILENAME hartree_potential
+      STRIDE 1 1 1
+    &END V_HARTREE_CUBE
+      &MOMENTS ON 
+            PERIODIC TRUE 
+            MAX_MOMENT = 1 
+            FILENAME dipole.dat 
+            &EACH 
+                QS_SCF 1 
+            &END EACH 
+        &END MOMENTS
+        &END PRINT
+
 	&END DFT
 	&SUBSYS
 		&CELL

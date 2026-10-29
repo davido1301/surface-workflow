@@ -8,6 +8,8 @@ from pymatgen.io.ase import AseAtomsAdaptor
 
 from surface_workflow.config import load_config 
 
+def reconstruct_2x1(): 
+    pass 
 
 def gen_slab(config_path: str, n_layer: int, run_dir): 
     config = load_config(config_path) 
@@ -43,18 +45,19 @@ def gen_slab(config_path: str, n_layer: int, run_dir):
         
     slab.make_supercell([n_a, n_b, 1]) 
     
-    # CENTER THE SLAB along Z 
-    z_coords = slab.cart_coords[:,2] 
-    slab_center = (z_coords.min() + z_coords.max()) / 2 
-    cell_center = slab.lattice.matrix[2,2] / 2 
-    dz = cell_center - slab_center 
+    if config["slab"]["center"]: 
+        # CENTER THE SLAB along Z 
+        z_coords = slab.cart_coords[:,2] 
+        slab_center = (z_coords.min() + z_coords.max()) / 2 
+        cell_center = slab.lattice.matrix[2,2] / 2 
+        dz = cell_center - slab_center 
 
-    slab.translate_sites(
-            indices=range(len(slab)), 
-            vector=[0,0,dz], 
-            frac_coords=False, 
-            to_unit_cell=False
-            ) 
+        slab.translate_sites(
+                indices=range(len(slab)), 
+                vector=[0,0,dz], 
+                frac_coords=False, 
+                to_unit_cell=False
+                ) 
 
 
     # TO ASE ATOMS -> WRITE EXTXYZ 

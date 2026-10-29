@@ -4,11 +4,12 @@ structure:
 
 slab:
   max_layers: 8
-  vacuum: 10.0
+  vacuum: 7.0
   conv_criteria: 0.1 
+  center: False
 
 supercell:
-  min_lateral_size: 15.0
+  min_lateral_size: 8
 
 output:
   directory: "runs/results"
@@ -18,4 +19,6 @@ cp2k:
   directory: "configs/cp2k/" 
   workdir: "runs/cp2k/" 
 
+reconstruction: 
+  2x1: True
   

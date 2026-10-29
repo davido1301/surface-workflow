@@ -1,0 +1,10 @@
+  Reference Point [Bohr]              0.00000000      0.00000000      0.00000000
+  Charges
+    Electronic=    256.00000000    Core=  -256.00000000    Total=    -0.00000000
+  Dipole vectors are based on the periodic (Berry phase) operator.
+  They are defined modulo integer multiples of the cell matrix [Debye].
+  [X] [   50.67986053   -50.67986053     0.00000000 ] [i]
+  [Y]=[    0.00000000    50.67986053     0.00000000 ]*[j]
+  [Z] [    0.00000000     0.00000000   286.68858440 ] [k]
+  Dipole moment [Debye]
+    X=  0.4956132E-02 Y=  0.2678059E-02 Z=  0.8617184E+01  Total=      8.6171861
