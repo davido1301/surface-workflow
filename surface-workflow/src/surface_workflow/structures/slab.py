@@ -93,7 +93,7 @@ def sature_tetraedic_2h(config_path, slab):
     """ Saturate the bottom layer in a tetraedic coordination 
     ATM: also move the slab a little so it does not look awkward
     Tested on Si( 1 0 0 ) """ 
-    config_path = load_config(config_path) 
+    config = load_config(config_path) 
     h_dist = config["reconstruction"]["h_dist"] 
     cutoff = config["reconstruction"]["cutoff"] 
 
@@ -130,10 +130,10 @@ def sature_tetraedic_2h(config_path, slab):
         theta = np.deg2rad(109.47) 
         
         # d_vec = - p*plane + q * normal -> Vec to H atom 
-        p = -(np.cos(theta)/np.cos(np.arccoss(cos_angle)/2)) 
+        p = -(np.cos(theta)/np.cos(np.arccos(cos_angle)/2)) 
 
         d_vec = - p*plane_vec + (np.sqrt(1-p**2))*normal 
-        e_vec = - p*plance_vec - (np.sqrt(1-p**2))*normal 
+        e_vec = - p*plane_vec - (np.sqrt(1-p**2))*normal 
 
         h1_pos = d_vec * h_dist + site_coord 
         h2_pos = e_vec * h_dist + site_coord 
