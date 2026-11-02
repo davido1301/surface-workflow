@@ -1,5 +1,5 @@
 structure:
-  file: "../data/SiO2_conventional_standard.cif"
+  file: "../data/Si_cubic.cif"
   miller_index: [0, 0, 1]
 
 slab:
@@ -9,7 +9,7 @@ slab:
   center: False
 
 supercell:
-  min_lateral_size: 8
+  min_lateral_size: 12
 
 output:
   directory: "runs/results"
@@ -21,4 +21,6 @@ cp2k:
 
 reconstruction: 
   2x1: True
-  
+  target_dist: 2.45
+  h_dist: 1.45
+  cutoff: 3.2 # for neighbor list

@@ -33,7 +33,7 @@ def main():
         generate_cell(f"slab_{n_layers}.extxyz", run_dir = run_dir, conf_dir= config["cp2k"]["directory"] ) 
         generate_new_cp2kinp(config_path, structure=f"slab_{n_layers}.extxyz", filename =cp2k_conf) 
         
-
+        continue 
         # SUBPROCESS INTO CP2K and run calculation 
         subprocess.run(
         [
