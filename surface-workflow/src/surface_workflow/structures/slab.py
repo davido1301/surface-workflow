@@ -143,6 +143,12 @@ def sature_tetraedic_2h(config_path, slab):
 
     for _ in hydrogen_pos: 
         slab.append("H", _, coords_are_cartesian=True) 
+
+    slab.translate_sites(
+            indices=range(len(slab)),
+            vector=[0,0,h_dist],
+            frac_coords=False
+        )
     return slab 
     
     
