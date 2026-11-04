@@ -27,3 +27,18 @@ def generate_cell(filename, run_dir, conf_dir):
     print(f"PBC: {atoms.pbc}")
 
 
+def generate_basic_cell(filename, run_dir, conf_dir, box_length=15): 
+
+    xyz_path = Path(run_dir / filename)
+    output_path = Path(conf_dir) / "cell.inc" 
+
+    atoms = read(xyz_path, format="extxyz")
+
+    with output_path.open("w") as f:
+        f.write(f"A [angstrom] {box_length} 0.0 0.0\n")
+        f.write(f"B [angstrom] 0.0 {box_length} 0.0\n")
+        f.write(f"C [angstrom] 0.0 0.0 {box_length}\n")
+    print(f"Cell written to: {output_path}")
+    print(f"PBC: {atoms.pbc}")
+
+

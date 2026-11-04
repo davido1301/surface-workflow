@@ -26,5 +26,6 @@ reconstruction:
   cutoff: 3.2 # for neighbor list
 
 precursors: 
+  name: "tma.xyz"
   file: "../data/precursors/tma.xyz" 
   bond_atom: "Al"
