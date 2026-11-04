@@ -6,6 +6,10 @@ from surface_workflow.structures.cell import generate_cell
 from surface_workflow.io.cp2k.input import generate_new_cp2kinp 
 from surface_workflow.io.cp2k.output import collect_energies
 from surface_workflow.analysis.plotting import plot_energy_steps_scf, plot_convergence 
+from surface_workflow.io.io import write_atoms 
+from surface_workflow.structures.precursors import adsorb_molecule
+
+
 
 import subprocess 
 import os 
@@ -28,12 +32,20 @@ def main():
         cp2k_conf = run_dir / f"cp2k_{n_layers}.inp" 
         input_file = Path(cp2k_conf).resolve()
         out_file = Path(run_dir / "cp2k.out").resolve()
-     
-        gen_slab(config_path, n_layers, run_dir) 
+        xyz_file = Path(run_dir / f"slab_{n_layers}.extxyz") 
+
+        precursor_xyz = config["precursors"]["file"] 
+        bond_atom = config["precursors"]["bond_atom"]
+
+
+        slab = gen_slab(config_path, n_layers, run_dir) 
+        slab = adsorb_molecule(slab, precursor_xyz, bond_atom)  
+        write_atoms(slab,xyz_file) 
+
+        continue
         generate_cell(f"slab_{n_layers}.extxyz", run_dir = run_dir, conf_dir= config["cp2k"]["directory"] ) 
         generate_new_cp2kinp(config_path, structure=f"slab_{n_layers}.extxyz", filename =cp2k_conf) 
         
-        continue 
         # SUBPROCESS INTO CP2K and run calculation 
         subprocess.run(
         [

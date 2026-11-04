@@ -207,13 +207,6 @@ def gen_slab(config_path: str, n_layer: int, run_dir):
                 to_unit_cell=False
                 ) 
     
-    # TO ASE ATOMS -> WRITE EXTXYZ 
-    atoms = AseAtomsAdaptor.get_atoms(slab) 
-    atoms.pbc = [True, True, False] # Vacuum direction not periodic 
-        
-    output_file = run_dir / f"slab_{n_layer}.extxyz"
-    write(output_file, atoms) 
-
-    print(f"Generated: {output_file}") 
+    return slab  
 
 

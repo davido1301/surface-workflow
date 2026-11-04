@@ -24,3 +24,7 @@ reconstruction:
   target_dist: 2.45
   h_dist: 1.45
   cutoff: 3.2 # for neighbor list
+
+precursors: 
+  file: "../data/precursors/tma.xyz" 
+  bond_atom: "Al"
