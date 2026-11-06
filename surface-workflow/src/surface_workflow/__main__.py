@@ -27,8 +27,9 @@ def main():
     precursor_xyz = config["precursors"]["file"] 
     conv_criteria = config["slab"]["conv_criteria"]
 
-    energies = [] 
-    
+    ENERGIES_SLAB = [] 
+    ENERGIES_SLAB_ADS = [] 
+
     ## AD MOLECULE ENERGY 
     run_dir = Path(config["cp2k"]["workdir"]) / "ads_mol"
     run_dir.mkdir(parents=True, exist_ok=True) 
@@ -51,10 +52,9 @@ def main():
     ) 
     
     output = collect_energies(out_file) 
-    ads_mol_e = output.final_energy 
-    print(ads_mol_e, "ADS MOL E " ) 
-    exit()
-    
+    MOLECULE_ISOLATED_ENERGY = output.final_energy 
+    print(MOLECULE_ISOLATED_ENERGY, "Isolated Energy") 
+    #### 
 
 
     # run cp2k calcs 
@@ -62,22 +62,20 @@ def main():
         run_dir = Path(config["cp2k"]["workdir"]) / f"slab_{n_layers}"
         cp2k_conf = run_dir / f"cp2k_{n_layers}.inp" 
         run_dir.mkdir(parents=True, exist_ok=True) 
+
         xyz_file = Path(run_dir / f"slab_{n_layers}.extxyz") 
+        ads_xyz_file = Path(run_dir / f"ads_slab_{n_layers}.extxyz") 
+        bond_atom = config["precursors"]["bond_atom"]
 
         out_file = Path(run_dir / "cp2k.out").resolve()
         input_file = Path(cp2k_conf).resolve()
-        bond_atom = config["precursors"]["bond_atom"]
 
-
+        # Compute energy for slab without ads. molecule
         slab = gen_slab(config_path, n_layers, run_dir) 
-        slab = adsorb_molecule(slab, precursor_xyz, bond_atom)  
         write_atoms(slab,xyz_file) 
-
-        continue
         generate_cell(f"slab_{n_layers}.extxyz", run_dir = run_dir, conf_dir= config["cp2k"]["directory"] ) 
         generate_new_cp2kinp(config_path, structure=f"slab_{n_layers}.extxyz", filename =cp2k_conf) 
         
-        # SUBPROCESS INTO CP2K and run calculation 
         subprocess.run(
         [
             "srun",
@@ -88,24 +86,42 @@ def main():
         cwd=run_dir,
         check=True,
         )
-
-            
-        # plots inside the run dir  // Store energies for conv? 
         output = collect_energies(out_file)
-        energies.append(output.final_energy / float(output.data["atoms"][0][0])) 
+        ENERGIES_SLAB.append(output.final_energy) 
         plot_energy_steps_scf(output.data["electronic_steps"][0], run_dir / f"scf_{n_layers}_steps.png") 
 
-    ### Plot convergence 
+        # Compute energy for slab with ads. molecule
+        slab = adsorb_molecule(slab, precursor_xyz, bond_atom)  
+        write_atoms(slab,ads_xyz_file) 
+        generate_cell(f"slab_{n_layers}.extxyz", run_dir = run_dir, conf_dir= config["cp2k"]["directory"] ) 
+        generate_new_cp2kinp(config_path, structure=f"ads_slab_{n_layers}.extxyz", filename =cp2k_conf) 
+        
+        subprocess.run(
+        [
+            "srun",
+            "cp2k.psmp",
+            "-i", str(input_file),
+            "-o", str("cp2k.out") 
+                        ], 
+        cwd=run_dir,
+        check=True,
+        )
+        output = collect_energies(out_file)
+        ENERGIES_SLAB_ADS.append(output.final_energy) 
+        plot_energy_steps_scf(output.data["electronic_steps"][0], run_dir / f"scf_ads_{n_layers}_steps.png") 
 
-        if len(energies) > 1: 
-            delta = abs(energies[-1] - energies[-2])
-            if delta < conv_criteria: 
-                print("Converged?!")
+
+        
+        # KONV CRIT
+        if len(ENERGIES_SLAB) > 1 and len(ENERGIES_SLAB_ADS) > 1: 
+            delta = (ENERGIES_SLAB_ADS[-2] - ENERGIES_SLAB[-2] - MOLECULE_ISOLATED_ENERGY) - (ENERGIES_SLAB_ADS[-1] - ENERGIES_SLAB[-1] - MOLECULE_ISOLATED_ENERGY) 
+            if abs(delta) < conv_criteria: 
+                print(f"Converged?! {delta:.5f}")
                 break 
 
 
-    plot_convergence(energies, output_dir / "convergence_plots.png") 
-
+    plot_convergence(ENERGIES_SLAB, output_dir / "convergence_plots.png") 
+    plot_convergence(ENERGIES_SLAB_ADS, output_dir / "convergence_plots_ads.png") 
 
     
         

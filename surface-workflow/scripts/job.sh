@@ -7,7 +7,7 @@
 #SBATCH --ntasks-per-node=32
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=224G
-#SBATCH --time=02:30:00
+#SBATCH --time=05:30:00
 #SBATCH --output=slab_%j.out
 #SBATCH --error=slab_%j.err
 

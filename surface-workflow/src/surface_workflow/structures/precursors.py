@@ -53,7 +53,7 @@ def insert_dma(slab, molecule_path, bond_atom, target_distance=2.45):
     return slab 
 
 
-def adsorb_molecule(slab, molecule_path,bond_atom, target_dist = 3): 
+def adsorb_molecule(slab, molecule_path,bond_atom, target_dist = 2.5): 
     """ Place precursor molecule ontop of surface randomly in target distance""" 
     max_z = max(site.coords[2] for site in slab) 
     atoms_on_top = [] 

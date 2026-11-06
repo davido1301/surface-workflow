@@ -5,7 +5,7 @@ structure:
 slab:
   max_layers: 8
   vacuum: 7.0
-  conv_criteria: 0.1 
+  conv_criteria: 0.0001
   center: False
 
 supercell:
