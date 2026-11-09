@@ -1,22 +1,17 @@
 # Surface Workflow
 
-A modular Python framework for automated surface generation, CP2K calculations and convergence analysis. 
+A modular Python framework for automated surface modelling, CP2K calculations, convergence studies, and scientific dataset generation for slabs. 
+> Status: Early development 
 
 ## Overview 
-Surface Workflow is a Python-based framework designed to automate and standarize computational worfklows for studying material surfaces for my PhD project. 
 
-The framework aims to connect structure generation, calculation preparation, execution, output parsing and convergence analysis into a reproducible and extensible pipeline. 
+*Surface Workflow* (Name subject to change) aims to automate and standardize computational workflows for studying material surfaces using DFT. 
 
-!!! 
-The initial focus is on generating surface slabs and achieving energetic convergence for now. Later on adsorption energies will be used as the main convergence criteria. 
-The long term goal is to extend the framework toward automated adsoprtion studies and surface property calculations. 
+The framework is designed to connect structure generation, simulation setup, calculation execution, result validation, and data analysis into a reproducible and exensible pipeline. 
+Beyond automating individual calculations, a central objective is to systematically generate consistent, validated computational datasets that can eventually support the fine-tuning of machine learning models. 
 
-## Workflow: 
-Bulk structure -> Surface/Slab Generation -> Layer Variation -> CP2K Input Generation -> Calculation (Local for testing / HPC using SLURM) -> Output Parsing + Validation -> Convergence Analysis -> Results Reports 
-
+The project currently focuses on slab generation and energetic convergence using *CP2K*, with plans to extend toward dataset construction. 
 
 ## Project Status
 Early development! 
-For now a bit of incoherent scripts
-!TODO: Later on add appropriate CLI 
 
