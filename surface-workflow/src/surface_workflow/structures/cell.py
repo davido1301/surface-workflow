@@ -27,10 +27,10 @@ def generate_cell(filename, run_dir, conf_dir):
     print(f"PBC: {atoms.pbc}")
 
 
-def generate_basic_cell(filename, run_dir, conf_dir, box_length=15): 
+def generate_basic_cell(filename, run_dir, box_length=15): 
 
-    xyz_path = Path(run_dir / filename)
-    output_path = Path(conf_dir) / "cell.inc" 
+    xyz_path = Path(run_dir) / filename
+    output_path = Path(run_dir) / "cell.inc" 
 
     atoms = read(xyz_path, format="extxyz")
 

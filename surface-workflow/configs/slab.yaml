@@ -29,3 +29,6 @@ precursors:
   name: "tma.xyz"
   file: "../data/precursors/tma.xyz" 
   bond_atom: "Al"
+
+E0s:
+  run_dir: "runs/cp2k/E0s/"

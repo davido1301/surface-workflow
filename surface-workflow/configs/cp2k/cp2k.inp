@@ -68,7 +68,6 @@
         &END MOMENTS
 
   &END PRINT 
-
   &END DFT
 
   &SUBSYS

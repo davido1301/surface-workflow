@@ -8,6 +8,7 @@ from surface_workflow.io.cp2k.output import collect_energies
 from surface_workflow.analysis.plotting import plot_energy_steps_scf, plot_convergence 
 from surface_workflow.io.io import write_atoms 
 from surface_workflow.structures.precursors import adsorb_molecule
+from surface_workflow.structures.isolated import make_isolated_atoms
 
 
 
@@ -38,27 +39,29 @@ def main():
 
     shutil.copy(precursor_xyz, run_dir) 
 
-    generate_basic_cell(config["precursors"]["name"], run_dir=run_dir, conf_dir=config["cp2k"]["directory"])
+    generate_basic_cell(config["precursors"]["name"], run_dir=run_dir)
     generate_new_cp2kinp(config_path, structure=config["precursors"]["name"], filename=cp2k_conf) 
-    subprocess.run(
-    [
-        "srun",
-        "cp2k.psmp",
-        "-i", str(cp2k_conf.resolve()),
-        "-o", str("cp2k.out")
-        ], 
-    cwd=run_dir,
-    check=True, 
-    ) 
+    #subprocess.run(
+   # [
+   #     "srun",
+   #    "cp2k.psmp",
+   #    "-i", str(cp2k_conf.resolve()),
+   #    "-o", str("cp2k.out")
+   #    ], 
+   #cwd=run_dir,
+   #check=True, 
+   #) 
     
-    output = collect_energies(out_file) 
-    MOLECULE_ISOLATED_ENERGY = output.final_energy 
-    print(MOLECULE_ISOLATED_ENERGY, "Isolated Energy") 
+   #output = collect_energies(out_file) 
+   #MOLECULE_ISOLATED_ENERGY = output.final_energy 
+   #print(MOLECULE_ISOLATED_ENERGY, "Isolated Energy") 
+    
     #### 
 
 
     # run cp2k calcs 
     for n_layers in range(1, config["slab"]["max_layers"]):
+
         run_dir = Path(config["cp2k"]["workdir"]) / f"slab_{n_layers}"
         cp2k_conf = run_dir / f"cp2k_{n_layers}.inp" 
         run_dir.mkdir(parents=True, exist_ok=True) 
@@ -72,6 +75,7 @@ def main():
 
         # Compute energy for slab without ads. molecule
         slab = gen_slab(config_path, n_layers, run_dir) 
+        continue
         write_atoms(slab,xyz_file) 
         generate_cell(f"slab_{n_layers}.extxyz", run_dir = run_dir, conf_dir= config["cp2k"]["directory"] ) 
         generate_new_cp2kinp(config_path, structure=f"slab_{n_layers}.extxyz", filename =cp2k_conf) 
@@ -119,11 +123,35 @@ def main():
                 print(f"Converged?! {delta:.5f}")
                 break 
 
+    
+    ## isolated atoms 
+    dic_E0s = [] 
+    run_dir = Path(config["E0s"]["run_dir"])
+    make_isolated_atoms(slab, run_dir=run_dir)
+    for file in run_dir.glob("*.extxyz"):
+        generate_basic_cell(file.name, run_dir=config["E0s"]["run_dir"])
+        generate_new_cp2kinp(config_path, structure=file.name, filename=run_dir / f"{file.stem}.inp", isolated=True) 
+        subprocess.run(
+            [
+                "srun",
+                "cp2k.psmp",
+                "-i", str(f"{file.stem}.inp"),
+                "-o", str(f"{file.stem}_cp2k.out") 
+            ], 
+            cwd=run_dir,
+            check=True,
+            )
+        energy0 = collect_energies(run_dir / f"{file.stem}_cp2k.out") 
+        dic_E0s.append((file.stem, energy0.final_energy))
+    
+    print(dic_E0s, "HERE E0s!!!!!!!!!!!")
 
+    exit()
     plot_convergence(ENERGIES_SLAB, output_dir / "convergence_plots.png") 
     plot_convergence(ENERGIES_SLAB_ADS, output_dir / "convergence_plots_ads.png") 
 
-    
+     
+
         
 if __name__ == "__main__": 
      main()

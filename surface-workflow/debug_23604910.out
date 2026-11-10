@@ -1,0 +1,15 @@
+Surface workflow environment ready.
+Job ID: 23604910
+Node: nid001199
+MPI ranks: 2
+OpenMP threads: 1
+/project/project_462001547/DAVID/software/containers/surface_workflow/env/bin/python
+/users/neffd/EasyBuild/SW/LUMI-25.03/C/CP2K/2024.3-cpeGNU-25.03-CPU/bin/cp2k.psmp
+Cell written to: runs/cp2k/ads_mol/cell.inc
+PBC: [False False False]
+Cell written to: runs/cp2k/E0s/cell.inc
+PBC: [False False False]
+Cell written to: runs/cp2k/E0s/cell.inc
+PBC: [False False False]
+[('H', np.float64(-12.626128403778639)), ('Si', np.float64(-102.424434306804))] HERE E0s!!!!!!!!!!!
+Workflow finished
