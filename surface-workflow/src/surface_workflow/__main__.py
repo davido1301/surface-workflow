@@ -4,7 +4,8 @@ from surface_workflow.config import load_config
 from surface_workflow.structures.slab  import gen_slab 
 from surface_workflow.structures.cell import generate_cell, generate_basic_cell
 from surface_workflow.io.cp2k.input import generate_new_cp2kinp 
-from surface_workflow.io.cp2k.output import collect_energies
+from surface_workflow.io.cp2k.output import collect_energies, extract_opt_structure
+from surface_workflow.io.cp2k.cp2k import run_cp2k
 from surface_workflow.analysis.plotting import plot_energy_steps_scf, plot_convergence 
 from surface_workflow.io.io import write_atoms 
 from surface_workflow.structures.precursors import adsorb_molecule
@@ -35,27 +36,22 @@ def main():
     run_dir = Path(config["cp2k"]["workdir"]) / "ads_mol"
     run_dir.mkdir(parents=True, exist_ok=True) 
     cp2k_conf = run_dir / "cp2k_admol.inp"
-    out_file = run_dir / "cp2k.out" 
 
     shutil.copy(precursor_xyz, run_dir) 
 
     generate_basic_cell(config["precursors"]["name"], run_dir=run_dir)
-    generate_new_cp2kinp(config_path, structure=config["precursors"]["name"], filename=cp2k_conf) 
-    #subprocess.run(
-   # [
-   #     "srun",
-   #    "cp2k.psmp",
-   #    "-i", str(cp2k_conf.resolve()),
-   #    "-o", str("cp2k.out")
-   #    ], 
-   #cwd=run_dir,
-   #check=True, 
-   #) 
-    
-   #output = collect_energies(out_file) 
-   #MOLECULE_ISOLATED_ENERGY = output.final_energy 
-   #print(MOLECULE_ISOLATED_ENERGY, "Isolated Energy") 
-    
+
+    generate_new_cp2kinp(config_path, structure=config["precursors"]["name"], filename=cp2k_conf, run_type="GEO_OPT")
+    run_cp2k(cp2k_conf, run_dir)
+    opt_structure = extract_opt_structure(config["precursors"]["name"], output_dir = run_dir).name
+    print(opt_structure, "here is opt_structure.name?")
+
+    generate_new_cp2kinp(config_path, structure=opt_structure, filename=cp2k_conf) 
+    output = run_cp2k(cp2k_conf, run_dir)
+    E_OUT = collect_energies(output) 
+    MOLECULE_ISOLATED_ENERGY = E_OUT.final_energy 
+    print(MOLECULE_ISOLATED_ENERGY, "Isolated Energy") 
+    exit()
     #### 
 
 
@@ -145,8 +141,6 @@ def main():
         dic_E0s.append((file.stem, energy0.final_energy))
     
     print(dic_E0s, "HERE E0s!!!!!!!!!!!")
-
-    exit()
     plot_convergence(ENERGIES_SLAB, output_dir / "convergence_plots.png") 
     plot_convergence(ENERGIES_SLAB_ADS, output_dir / "convergence_plots_ads.png") 
 
