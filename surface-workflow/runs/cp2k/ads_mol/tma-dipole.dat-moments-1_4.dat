@@ -8,3 +8,23 @@
   [Z] [    0.00000000     0.00000000    72.04806408 ] [k]
   Dipole moment [Debye]
     X= -0.3635093E-03 Y= -0.6970597E-02 Z= -0.2069801E-03  Total=      0.0069831
+  Reference Point [Bohr]              0.00000000      0.00000000      0.00000000
+  Charges
+    Electronic=     24.00000000    Core=   -24.00000000    Total=    -0.00000000
+  Dipole vectors are based on the periodic (Berry phase) operator.
+  They are defined modulo integer multiples of the cell matrix [Debye].
+  [X] [   72.04806408     0.00000000     0.00000000 ] [i]
+  [Y]=[    0.00000000    72.04806408     0.00000000 ]*[j]
+  [Z] [    0.00000000     0.00000000    72.04806408 ] [k]
+  Dipole moment [Debye]
+    X= -0.3635093E-03 Y= -0.6970597E-02 Z= -0.2069801E-03  Total=      0.0069831
+  Reference Point [Bohr]              0.00000000      0.00000000      0.00000000
+  Charges
+    Electronic=     24.00000000    Core=   -24.00000000    Total=     0.00000000
+  Dipole vectors are based on the periodic (Berry phase) operator.
+  They are defined modulo integer multiples of the cell matrix [Debye].
+  [X] [   74.29547670   -74.29547670     0.00000000 ] [i]
+  [Y]=[    0.00000000    74.29547670     0.00000000 ]*[j]
+  [Z] [    0.00000000     0.00000000   210.13934153 ] [k]
+  Dipole moment [Debye]
+    X=  0.1505973E-01 Y= -0.6224981E-02 Z= -0.3210549E-03  Total=      0.0162987

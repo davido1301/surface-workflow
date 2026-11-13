@@ -21,7 +21,7 @@ cp2k:
 
 reconstruction: 
   2x1: True
-  target_dist: 2.45
+  target_dist: 2.8
   h_dist: 1.45
   cutoff: 3.2 # for neighbor list
 

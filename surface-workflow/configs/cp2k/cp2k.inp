@@ -13,9 +13,6 @@
   &DFT
     BASIS_SET_FILE_NAME BASIS_MOLOPT
     POTENTIAL_FILE_NAME POTENTIAL
-
-    SURFACE_DIPOLE_CORRECTION True 
-    SURF_DIP_DIR Z
     &MGRID
       CUTOFF 350
       REL_CUTOFF 40
@@ -53,21 +50,6 @@
       POISSON_SOLVER ANALYTIC
     &END POISSON
 
-    &PRINT
-    &V_HARTREE_CUBE ON
-      FILENAME hartree_potential
-      STRIDE 1 1 1
-    &END V_HARTREE_CUBE
-      &MOMENTS ON 
-            PERIODIC TRUE 
-            MAX_MOMENT = 1 
-            FILENAME dipole.dat 
-            &EACH 
-                QS_SCF 1 
-            &END EACH 
-        &END MOMENTS
-
-  &END PRINT 
   &END DFT
 
   &SUBSYS

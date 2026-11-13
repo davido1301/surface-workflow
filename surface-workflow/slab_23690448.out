@@ -1,0 +1,7 @@
+Surface workflow environment ready.
+Job ID: 23690448
+Node: nid001069
+MPI ranks: 32
+OpenMP threads: 4
+/project/project_462001547/DAVID/software/containers/surface_workflow/env/bin/python
+/users/neffd/EasyBuild/SW/LUMI-25.03/C/CP2K/2024.3-cpeGNU-25.03-CPU/bin/cp2k.psmp

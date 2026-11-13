@@ -1,0 +1,9 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) ModuleLabel/label   2) lumi-tools/26.06   3) init-lumi/0.3
+
+The following sticky modules could not be reloaded:
+
+  1) lumi-tools
+[2026-11-13T00:22:42.758] error: *** JOB 23690448 ON nid001069 CANCELLED AT 2026-11-13T00:22:42 DUE to SIGNAL Terminated ***

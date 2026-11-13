@@ -3,13 +3,13 @@ from pymatgen.io.ase import AseAtomsAdaptor
 
 
 
-def write_atoms(atoms, output, pbc = [True, True, False]): 
+def write_atoms(atoms, output, format="extxyz", pbc = [True, True, False]): 
     """ Pass in pymatgen object write xyz"""  
     atoms = AseAtomsAdaptor.get_atoms(atoms)
     atoms.pbc = pbc 
     output = output 
 
-    write(output, atoms) 
+    write(output, atoms, format=format) 
     print(f"Generated {output}") 
 
 

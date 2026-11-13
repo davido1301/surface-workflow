@@ -1,4 +1,7 @@
 from pathlib import Path 
+from pymatgen.core import Structure
+from ase.io import read
+from pymatgen.io.ase import AseAtomsAdaptor
 
 from surface_workflow.config import load_config 
 from surface_workflow.structures.slab  import gen_slab 
@@ -43,15 +46,14 @@ def main():
 
     generate_new_cp2kinp(config_path, structure=config["precursors"]["name"], filename=cp2k_conf, run_type="GEO_OPT")
     run_cp2k(cp2k_conf, run_dir)
-    opt_structure = extract_opt_structure(config["precursors"]["name"], output_dir = run_dir).name
-    print(opt_structure, "here is opt_structure.name?")
-
+    
+    opt_path = extract_opt_structure(config["precursors"]["name"], output_dir = run_dir)
+    opt_structure = opt_path.name
     generate_new_cp2kinp(config_path, structure=opt_structure, filename=cp2k_conf) 
     output = run_cp2k(cp2k_conf, run_dir)
     E_OUT = collect_energies(output) 
     MOLECULE_ISOLATED_ENERGY = E_OUT.final_energy 
     print(MOLECULE_ISOLATED_ENERGY, "Isolated Energy") 
-    exit()
     #### 
 
 
@@ -71,21 +73,19 @@ def main():
 
         # Compute energy for slab without ads. molecule
         slab = gen_slab(config_path, n_layers, run_dir) 
-        continue
         write_atoms(slab,xyz_file) 
         generate_cell(f"slab_{n_layers}.extxyz", run_dir = run_dir, conf_dir= config["cp2k"]["directory"] ) 
-        generate_new_cp2kinp(config_path, structure=f"slab_{n_layers}.extxyz", filename =cp2k_conf) 
-        
-        subprocess.run(
-        [
-            "srun",
-            "cp2k.psmp",
-            "-i", str(input_file),
-            "-o", str("cp2k.out") 
-                        ], 
-        cwd=run_dir,
-        check=True,
-        )
+        generate_new_cp2kinp(config_path, structure=f"slab_{n_layers}.extxyz", filename =cp2k_conf, run_type = "GEO_OPT")
+        run_cp2k(cp2k_conf, run_dir) 
+        opt_path = extract_opt_structure(f"slab_{n_layers}.extxyz", output_dir = run_dir)
+        opt_structure = opt_path.name 
+
+        atoms = read(opt_path, format="extxyz") 
+        slab = AseAtomsAdaptor.get_structure(atoms) 
+
+
+        generate_new_cp2kinp(config_path, structure=opt_structure, filename=cp2k_conf) 
+        out_file = run_cp2k(cp2k_conf, run_dir) 
         output = collect_energies(out_file)
         ENERGIES_SLAB.append(output.final_energy) 
         plot_energy_steps_scf(output.data["electronic_steps"][0], run_dir / f"scf_{n_layers}_steps.png") 
@@ -93,23 +93,17 @@ def main():
         # Compute energy for slab with ads. molecule
         slab = adsorb_molecule(slab, precursor_xyz, bond_atom)  
         write_atoms(slab,ads_xyz_file) 
-        generate_cell(f"slab_{n_layers}.extxyz", run_dir = run_dir, conf_dir= config["cp2k"]["directory"] ) 
-        generate_new_cp2kinp(config_path, structure=f"ads_slab_{n_layers}.extxyz", filename =cp2k_conf) 
-        
-        subprocess.run(
-        [
-            "srun",
-            "cp2k.psmp",
-            "-i", str(input_file),
-            "-o", str("cp2k.out") 
-                        ], 
-        cwd=run_dir,
-        check=True,
-        )
-        output = collect_energies(out_file)
+        generate_cell(f"ads_slab_{n_layers}.extxyz", run_dir = run_dir, conf_dir= config["cp2k"]["directory"] ) 
+        # GEO OPT + LABEL ADS+SLAB 
+        generate_new_cp2kinp(config_path, structure=f"ads_slab_{n_layers}.extxyz", filename =cp2k_conf, run_type = "GEO_OPT")
+        run_cp2k(cp2k_conf, run_dir) 
+        opt_structure = extract_opt_structure(f"ads_slab_{n_layers}.extxyz", output_dir = run_dir).name
+        generate_new_cp2kinp(config_path, structure=opt_structure, filename=cp2k_conf) 
+        out_file = run_cp2k(cp2k_conf, run_dir) 
+        output = collect_energies(out_file) 
+
         ENERGIES_SLAB_ADS.append(output.final_energy) 
         plot_energy_steps_scf(output.data["electronic_steps"][0], run_dir / f"scf_ads_{n_layers}_steps.png") 
-
 
         
         # KONV CRIT
@@ -121,6 +115,7 @@ def main():
 
     
     ## isolated atoms 
+    exit() 
     dic_E0s = [] 
     run_dir = Path(config["E0s"]["run_dir"])
     make_isolated_atoms(slab, run_dir=run_dir)

@@ -1,0 +1,38 @@
+Surface workflow environment ready.
+Job ID: 23690135
+Node: nid001555
+MPI ranks: 32
+OpenMP threads: 4
+/project/project_462001547/DAVID/software/containers/surface_workflow/env/bin/python
+/users/neffd/EasyBuild/SW/LUMI-25.03/C/CP2K/2024.3-cpeGNU-25.03-CPU/bin/cp2k.psmp
+Cell written to: runs/cp2k/ads_mol/cell.inc
+PBC: [False False False]
+Cell([0.0, 0.0, 0.0]) atoms cell
+[False False False] atoms pbc
+-665.7740478735037 Isolated Energy
+Generated runs/cp2k/slab_1/slab_1.extxyz
+Cell written to: configs/cp2k/cell.inc
+Cell lengths (Å): [15.46789861 21.874912   43.749824  ]
+PBC: [ True  True False]
+Cell([[15.46789861305898, 0.0, 9.471356263009232e-16], [-15.46789861305898, 15.467898613058983, 1.3394520481215012e-15], [0.0, 0.0, 43.749824]]) atoms cell
+[ True  True False] atoms pbc
+Generated runs/cp2k/slab_1/ads_slab_1.extxyz
+Cell written to: configs/cp2k/cell.inc
+Cell lengths (Å): [15.46789861 21.874912   43.749824  ]
+PBC: [ True  True False]
+Cell([[15.46789861305898, 0.0, 9.471356263009232e-16], [-15.46789861305898, 15.467898613058983, 1.3394520481215012e-15], [0.0, 0.0, 43.749824]]) atoms cell
+[ True  True False] atoms pbc
+Generated runs/cp2k/slab_2/slab_2.extxyz
+Cell written to: configs/cp2k/cell.inc
+Cell lengths (Å): [15.46789861 21.874912   49.218552  ]
+PBC: [ True  True False]
+Cell([[15.46789861305898, 0.0, 9.471356263009232e-16], [-15.46789861305898, 15.467898613058983, 1.3394520481215012e-15], [0.0, 0.0, 49.218551999999995]]) atoms cell
+[ True  True False] atoms pbc
+Generated runs/cp2k/slab_2/ads_slab_2.extxyz
+Cell written to: configs/cp2k/cell.inc
+Cell lengths (Å): [15.46789861 21.874912   49.218552  ]
+PBC: [ True  True False]
+Cell([[15.46789861305898, 0.0, 9.471356263009232e-16], [-15.46789861305898, 15.467898613058983, 1.3394520481215012e-15], [0.0, 0.0, 49.218551999999995]]) atoms cell
+[ True  True False] atoms pbc
+Converged?! 0.00000
+Workflow finished
